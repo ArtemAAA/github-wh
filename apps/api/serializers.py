@@ -1,3 +1,4 @@
+import json
 from logging import getLogger
 
 from rest_framework import serializers
@@ -13,6 +14,11 @@ class WebhookEventSerializer(serializers.ModelSerializer):
     class Meta:
         model = WebhookEvent
         fields = '__all__'
+
+    def to_representation(self, obj):
+        data = super(WebhookEventSerializer, self).to_representation(obj)
+        data['event_data'] = json.loads(data['event_data'] or "{}")
+        return data
 
     def to_internal_value(self, data):
         event_name = data.pop('event_name')
@@ -41,7 +47,7 @@ class WebhookEventSerializer(serializers.ModelSerializer):
 
         result = {
             'action': action,
-            'event_data': event_data,
+            'event_data': json.dumps(event_data),
             'event_name': event_name,
             'repository': repository,
             'sender': sender,
