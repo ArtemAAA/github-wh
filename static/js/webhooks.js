@@ -27,4 +27,11 @@
       $eventsList.prepend(createEventElement(event));
     }
   });
+
+  // websockets
+  const ws = new WebSocket(`ws://${window.location.host}/ws/webhooks/events/`);
+  ws.onmessage = function(e) {
+    $eventsList.prepend(createEventElement(JSON.parse(e.data)));
+  };
+
 })();

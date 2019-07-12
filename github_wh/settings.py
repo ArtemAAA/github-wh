@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'channels',
 
     'apps.api',
     'apps.webhooks',
@@ -72,6 +73,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "github_wh.routing.application"
 WSGI_APPLICATION = 'github_wh.wsgi.application'
 
 DATABASES = {
@@ -121,3 +123,14 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
+
+CHANNEL_NAME = 'webhooks_events'
