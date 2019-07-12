@@ -1,8 +1,8 @@
 from django.urls import path
 
-from .views import CreateWebhookEvent
+from .views import WebhookEventList
 
 
 urlpatterns = [
-    path('new_webhook_event/', CreateWebhookEvent.as_view(), name='create_webhook_event'),
+    path('webhook/events/', WebhookEventList.as_view(), name='api_webhook_events'),
 ]

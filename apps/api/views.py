@@ -5,11 +5,13 @@ from django.utils.decorators import method_decorator
 from rest_framework import generics, status
 from rest_framework.response import Response
 
+from apps.webhooks.models import WebhookEvent
 from .serializers import WebhookEventSerializer
 
 
-class CreateWebhookEvent(generics.CreateAPIView):
+class WebhookEventList(generics.ListCreateAPIView):
     serializer_class = WebhookEventSerializer
+    queryset = WebhookEvent.objects.all()
 
     skip_fields = ('csrfmiddlewaretoken', )
 
